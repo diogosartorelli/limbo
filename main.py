@@ -3,30 +3,33 @@ import random
 import os
 import tkinter as tk
 from tkinter import messagebox
-from recursos.funcoes import inicializarBancoDeDados
-from recursos.funcoes import escreverDados
+from assets.funcoes import inicializarBancoDeDados
+from assets.funcoes import escreverDados
 import json
 
 pygame.init()
 inicializarBancoDeDados()
-tamanho = (800,600)
+tamanho = (1000,700)
 relogio = pygame.time.Clock()
 tela = pygame.display.set_mode( tamanho ) 
-pygame.display.set_caption("Iron Man do Marcão")
-icone  = pygame.image.load("assets/icone.png")
+pygame.display.set_caption("LIMBO")
+icone  = pygame.image.load("recursos/icon.jpg")
 pygame.display.set_icon(icone)
 branco = (255,255,255)
 preto = (0, 0 ,0 )
-iron = pygame.image.load("assets/iron.png")
-fundoStart = pygame.image.load("assets/fundoStart.jpg")
-fundoJogo = pygame.image.load("assets/fundoJogo.png")
-fundoDead = pygame.image.load("assets/fundoDead.png")
-missel = pygame.image.load("assets/missile.png")
-missileSound = pygame.mixer.Sound("assets/missile.wav")
-explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
-fonteMenu = pygame.font.SysFont("comicsans",18)
+iron = pygame.image.load("recursos/iron.png")
+fundoStart = pygame.image.load("recursos/fundoStart.png")
+fundoJogo = pygame.image.load("recursos/fundoJogo.png")
+logo = pygame.image.load("recursos/limboLogo.png")
+logo = pygame.transform.scale(logo, (320, 120))
+fundoDead = pygame.image.load("recursos/fundoDead.png")
+missel = pygame.image.load("recursos/missile.png")
+missileSound = pygame.mixer.Sound("recursos/missile.wav")
+explosaoSound = pygame.mixer.Sound("recursos/explosao.wav")
+fonteMenu = pygame.font.SysFont("Papyrus",25)
 fonteMorte = pygame.font.SysFont("arial",120)
-pygame.mixer.music.load("assets/ironsound.mp3")
+pygame.mixer.music.load("recursos/backgroundaudio.mp3")
+pygame.mixer.music.play(-1)
 
 def jogar():
     largura_janela = 300
@@ -70,7 +73,6 @@ def jogar():
     posicaoXMissel = 400
     posicaoYMissel = -240
     velocidadeMissel = 1
-    pygame.mixer.Sound.play(missileSound)
     pygame.mixer.music.play(-1)
     pontos = 0
     larguraPersona = 250
@@ -154,10 +156,10 @@ def jogar():
 
 
 def start():
-    larguraButtonStart = 150
-    alturaButtonStart  = 40
-    larguraButtonQuit = 150
-    alturaButtonQuit  = 40
+    larguraButtonStart = 200
+    alturaButtonStart  = 55
+    larguraButtonQuit = 200
+    alturaButtonQuit  = 55
     
 
     while True:
@@ -190,14 +192,15 @@ def start():
             
         tela.fill(branco)
         tela.blit(fundoStart, (0,0) )
+        tela.blit(logo, (340, 150))
 
-        startButton = pygame.draw.rect(tela, branco, (10,10, larguraButtonStart, alturaButtonStart), border_radius=15)
-        startTexto = fonteMenu.render("Iniciar Game", True, preto)
-        tela.blit(startTexto, (25,12))
+        startButton = pygame.draw.rect(tela, branco, (400,385, larguraButtonStart, alturaButtonStart), border_radius=20)
+        startTexto = fonteMenu.render("Start Game", True, preto)
+        tela.blit(startTexto, (430,390))
         
-        quitButton = pygame.draw.rect(tela, branco, (10,60, larguraButtonQuit, alturaButtonQuit), border_radius=15)
-        quitTexto = fonteMenu.render("Sair do Game", True, preto)
-        tela.blit(quitTexto, (25,62))
+        quitButton = pygame.draw.rect(tela, branco, (400,460, larguraButtonQuit, alturaButtonQuit), border_radius=20)
+        quitTexto = fonteMenu.render("Quit Game", True, preto)
+        tela.blit(quitTexto, (430,467))
         
         pygame.display.update()
         relogio.tick(60)

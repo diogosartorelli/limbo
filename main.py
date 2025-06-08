@@ -70,7 +70,7 @@ def jogar():
     
 
     posicaoXPersona = 400
-    posicaoYPersona = 300
+    posicaoYPersona = 500
     movimentoXPersona  = 0
     movimentoYPersona  = 0
     posicaoXMissel = 400
@@ -96,9 +96,9 @@ def jogar():
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_LEFT:
                 movimentoXPersona = 0
             elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_UP:
-                movimentoYPersona = -15
+                movimentoYPersona = 0
             elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_DOWN:
-                movimentoYPersona = 15
+                movimentoYPersona = 0
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_UP:
                 movimentoYPersona = 0
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_DOWN:

@@ -17,14 +17,16 @@ icone  = pygame.image.load("recursos/icon.jpg")
 pygame.display.set_icon(icone)
 branco = (255,255,255)
 preto = (0, 0 ,0 )
-iron = pygame.image.load("recursos/iron.png")
+personagem = pygame.image.load("Recursos/personagem.png")
+personagem = pygame.transform.scale(personagem, (110, 110))
 fundoStart = pygame.image.load("recursos/fundoStart.png")
 fundoJogo = pygame.image.load("recursos/fundoJogo.png")
 fundoJogo = pygame.transform.scale(fundoJogo, (1000, 700))
 logo = pygame.image.load("recursos/limboLogo.png")
 logo = pygame.transform.scale(logo, (320, 120))
 fundoDead = pygame.image.load("recursos/fundoDead.png")
-missel = pygame.image.load("recursos/missile.png")
+meteoro = pygame.image.load("recursos/meteoro.png")
+meteoro = pygame.transform.scale (meteoro, (220, 260))
 missileSound = pygame.mixer.Sound("recursos/missile.wav")
 explosaoSound = pygame.mixer.Sound("recursos/explosao.wav")
 fonteMenu = pygame.font.SysFont("Papyrus",25)
@@ -76,10 +78,10 @@ def jogar():
     velocidadeMissel = 1
     pygame.mixer.music.play(-1)
     pontos = 0
-    larguraPersona = 250
-    alturaPersona = 127
-    larguaMissel  = 50
-    alturaMissel  = 250
+    larguraPersona = 110
+    alturaPersona = 110
+    larguaMissel  = 220
+    alturaMissel  = 260
     dificuldade  = 30
     while True:
         for evento in pygame.event.get():
@@ -106,9 +108,9 @@ def jogar():
         posicaoYPersona = posicaoYPersona + movimentoYPersona            
         
         if posicaoXPersona < 0 :
-            posicaoXPersona = 15
-        elif posicaoXPersona >550:
-            posicaoXPersona = 540
+            posicaoXPersona = 1
+        elif posicaoXPersona > 900:
+            posicaoXPersona = 899
             
         if posicaoYPersona < 0 :
             posicaoYPersona = 15
@@ -119,7 +121,7 @@ def jogar():
         tela.fill(branco)
         tela.blit(fundoJogo, (0,0) )
         #pygame.draw.circle(tela, preto, (posicaoXPersona,posicaoYPersona), 40, 0 )
-        tela.blit( iron, (posicaoXPersona, posicaoYPersona) )
+        tela.blit( personagem, (posicaoXPersona, posicaoYPersona) )
         
         posicaoYMissel = posicaoYMissel + velocidadeMissel
         if posicaoYMissel > 600:
@@ -130,7 +132,7 @@ def jogar():
             pygame.mixer.Sound.play(missileSound)
             
             
-        tela.blit( missel, (posicaoXMissel, posicaoYMissel) )
+        tela.blit( meteoro, (posicaoXMissel, posicaoYMissel) )
         
         texto = fonteMenu.render("Pontos: "+str(pontos), True, branco)
         tela.blit(texto, (15,15))

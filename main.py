@@ -44,7 +44,7 @@ lua_img_original = pygame.image.load("recursos/lua.png").convert_alpha()
 
 voz = pyttsx3.init()
 def falar(mensagem):
-    voz.say("seja bem vindo ao jogo")
+    voz.say(mensagem)
     voz.runAndWait()
 
 def ouvir_comando():
@@ -127,7 +127,8 @@ def jogar():
 
     root.mainloop()
     
-    # Mostra tela de boas-vindas após obter o nome
+    falar(f"Bem-vindo ao Limbo, {nome}!")
+    
     tela_boas_vindas(nome)
 
     posicaoXPersona = 400

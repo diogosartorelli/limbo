@@ -35,6 +35,8 @@ fonteMenu = pygame.font.SysFont("Papyrus",25)
 fonteMorte = pygame.font.SysFont("arial",120)
 pygame.mixer.music.load("recursos/backgroundaudio.mp3")
 pygame.mixer.music.play(-1)
+nuvem = pygame.image.load ("recursos/nuvem.png")
+nuvem = pygame.transform.scale (nuvem , (150, 150))
 
 voz = pyttsx3.init()
 def falar(mensagem):
@@ -137,6 +139,9 @@ def jogar():
     alturaPersona = 110
     larguaMissel = 150
     alturaMissel = 225
+    posicaoX_nuvem = random.randint(0, 850)
+    posicaoY_nuvem = random.randint(50, 200)
+    velocidade_nuvem = random.uniform(0.5, 1.5)
     pausado = False
     
     while True:
@@ -174,10 +179,17 @@ def jogar():
         elif posicaoYPersona > 473:
             posicaoYPersona = 463
         
+        posicaoX_nuvem += velocidade_nuvem
+        if posicaoX_nuvem > 1000:
+          posicaoX_nuvem = -150  # Reinicia do lado esquerdo
+          posicaoY_nuvem = random.randint(50, 200)
+          velocidade_nuvem = random.uniform(0.5, 1.5)
+        
         tela.fill(branco)
         tela.blit(fundoJogo, (0,0))
         tela.blit(personagem, (posicaoXPersona, posicaoYPersona))
-        
+        tela.blit(nuvem, (posicaoX_nuvem, posicaoY_nuvem))
+
         posicaoYMissel = posicaoYMissel + velocidadeMissel
         if posicaoYMissel > 600:
             posicaoYMissel = -240

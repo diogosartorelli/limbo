@@ -50,7 +50,7 @@ def falar(mensagem):
 def ouvir_comando():
     recognizer = sr.Recognizer()
     with sr.Microphone() as mic:
-        print("Diga 'iniciar' para começar o jogo...")
+        print("Diga 'iniciar jogo' para começar o jogo...")
         audio = recognizer.listen(mic)
         try:
             comando = recognizer.recognize_google(audio, language='pt-BR')
@@ -82,22 +82,29 @@ def tela_boas_vindas(nome_jogador):
             "Use as setas do teclado para mover o personagem",
             "Desvie dos meteoros que caem do céu",
             "Cada meteoro desviado aumenta sua pontuação",
-            "O jogo fica mais difícil conforme você avança!"
+            "O jogo fica mais difícil conforme você avança!",
+            "Clique no botão 'Iniciar jogo' ou apenas diga" ,
+            "'iniciar jogo' em voz alta"
         ]
         
         for i, linha in enumerate(instrucoes):
             texto_linha = fonteMenu.render(linha, True, branco)
-            tela.blit(texto_linha, (300, 250 + i * 30))
+            tela.blit(texto_linha, (250, 250 + i * 30))
         
         # Botão para iniciar
         botao_iniciar = pygame.draw.rect(tela, branco, 
-                                       (400, 450, largura_botao, altura_botao), 
+                                       (400, 470, largura_botao, altura_botao), 
                                        border_radius=20)
         texto_botao = fonteMenu.render("Iniciar Jogo", True, preto)
-        tela.blit(texto_botao, (430, 455))
+        tela.blit(texto_botao, (435, 475))
         
         pygame.display.update()
         relogio.tick(60)
+
+        comando_voz = ouvir_comando()
+        if "iniciar jogo" in comando_voz:
+            return
+
 
 def jogar():
     largura_janela = 300

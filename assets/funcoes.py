@@ -18,21 +18,31 @@ def inicializarBancoDeDados():
         banco = open("base.atitus","w")
     
 def escreverDados(nome, pontos):
-    # INI - inserindo no arquivo
-    banco = open("base.atitus","r")
-    dados = banco.read()
-    banco.close()
-    print("dados",type(dados))
-    if dados != "":
-        dadosDict = json.loads(dados)
-    else:
-        dadosDict = {}
-        
-    data_br = datetime.now().strftime("%d/%m/%Y")
-    dadosDict[nome] = (pontos, data_br)
-    
-    banco = open("base.atitus","w")
-    banco.write(json.dumps(dadosDict))
-    banco.close()
+    arquivo = "log.dat"
+    dados = {}
+
+    # Carrega os dados existentes (se houver)
+    if os.path.exists(arquivo):
+        with open(arquivo, "r") as f:
+            try:
+                dados = json.load(f)
+            except json.JSONDecodeError:
+                dados = {}
+
+    # Obtém data e hora atual
+    agora = datetime.now()
+    data = agora.strftime("%d/%m/%Y")
+    hora = agora.strftime("%H:%M:%S")
+
+    # Cria a lista de partidas se ainda não existir
+    if nome not in dados:
+        dados[nome] = []
+
+    # Adiciona o novo registro (pontuação, data, hora)
+    dados[nome].append([pontos, data, hora])
+
+    # Salva de volta no arquivo
+    with open(arquivo, "w") as f:
+        json.dump(dados, f, indent=4)
     
     # END - inserindo no arquivo

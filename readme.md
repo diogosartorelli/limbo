@@ -25,6 +25,6 @@ Além da jogabilidade básica, o jogo inclui:
 - **Animações e efeitos sonoros**
 - **Sistema de hitbox justo (colisão precisa)**
 
----
+## Você consegue escapar do limbo?
 
 

@@ -306,17 +306,23 @@ def dead():
     larguraButtonQuit = 150
     alturaButtonQuit = 40
     
-    root = tk.Tk()
-    root.title("Tela da Morte")
-    label = tk.Label(root, text="Log das Partidas", font=("Arial", 16))
-    label.pack(pady=10)
-    listbox = tk.Listbox(root, width=50, height=10, selectmode=tk.SINGLE)
-    listbox.pack(pady=20)
-    log_partidas = open("base.atitus", "r").read()
-    log_partidas = json.loads(log_partidas)
-    for chave in log_partidas:
-        listbox.insert(tk.END, f"Pontos: {log_partidas[chave][0]} na data: {log_partidas[chave][1]} - Nickname: {chave}")
-    root.mainloop()
+     # Carregar os dados do log
+    try:
+        with open("log.dat", "r") as f:
+            dados = json.load(f)
+    except FileNotFoundError:
+        dados = {}
+
+    # Coletar todos os registros com nome, pontuação, data e hora
+    registros = []
+    for nome, partidas in dados.items():
+        for partida in partidas:
+            if len(partidas) == 3:
+                pontos, data, hora = partida
+                registros.append((nome, pontos, data, hora))
+
+    # Ordenar por data/hora se necessário (aqui assume a ordem original como mais recente)
+    registros = registros[-5:]  # pegar os 5 últimos
     
     while True:
         for evento in pygame.event.get():
@@ -349,6 +355,14 @@ def dead():
         quitButton = pygame.draw.rect(tela, branco, (10,60, larguraButtonQuit, alturaButtonQuit), border_radius=15)
         quitTexto = fonteMenu.render("Sair do Game", True, preto)
         tela.blit(quitTexto, (25,62))
+
+        titulo = fonteMenu.render("Últimas 5 Partidas:", True, branco)
+        tela.blit(titulo, (200, 600))
+
+        # Exibir os registros
+        for i, (nome, pontos, data, hora) in enumerate(registros):
+            texto = fonteMenu.render(f"{i+1}. {nome} | {pontos} pts | {data} {hora}", True, branco)
+            tela.blit(texto, (250, 190 + i * 30))
 
         pygame.display.update()
         relogio.tick(60)

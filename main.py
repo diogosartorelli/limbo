@@ -128,15 +128,16 @@ def jogar():
     posicaoYPersona = 500
     movimentoXPersona = 0
     movimentoYPersona = 0
-    posicaoXMissel = 400
+    posicaoXMissel = 100
     posicaoYMissel = -240
     velocidadeMissel = 1
     pygame.mixer.music.play(-1)
     pontos = 0
     larguraPersona = 110
     alturaPersona = 110
-    larguaMissel = 50
+    larguaMissel = 150
     alturaMissel = 225
+    
     
     while True:
         for evento in pygame.event.get():
@@ -189,23 +190,21 @@ def jogar():
         texto = fonteMenu.render("Pontos: "+str(pontos), True, branco)
         tela.blit(texto, (15,15))
         
-        # Sistema de colisão com buffer ajustado
-        BUFFER_COLISAO_X = 20
-        BUFFER_COLISAO_Y = 30
+        hitbox_width = larguraPersona - 30
+        hitbox_height = alturaPersona - 40
+        offset_x = 15
+        offset_y = 20
+
+        persona_rect = pygame.Rect(posicaoXPersona + offset_x, posicaoYPersona + offset_y, hitbox_width, hitbox_height)
         
-        persona_rect = pygame.Rect(
-            posicaoXPersona + BUFFER_COLISAO_X,
-            posicaoYPersona + BUFFER_COLISAO_Y,
-            larguraPersona - 2 * BUFFER_COLISAO_X,
-            alturaPersona - 2 * BUFFER_COLISAO_Y
-        )
-        
-        missel_rect = pygame.Rect(
-            posicaoXMissel + 10,
-            posicaoYMissel + 10,
-            larguaMissel - 20,
-            alturaMissel - 20
-        )
+        hitbox_width = larguaMissel - 40
+        hitbox_height = alturaMissel - 30
+
+        missel_rect = pygame.Rect(posicaoXMissel + 50, posicaoYMissel + 30, hitbox_width, hitbox_height)
+
+        #pygame.draw.rect(tela, (255, 0, 0), persona_rect, 2)
+        #pygame.draw.rect(tela, (0, 0, 255), missel_rect, 2)
+
         
         if persona_rect.colliderect(missel_rect):
             escreverDados(nome, pontos)

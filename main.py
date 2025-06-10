@@ -5,7 +5,6 @@ import tkinter as tk
 from tkinter import messagebox
 from assets.funcoes import inicializarBancoDeDados
 from assets.funcoes import escreverDados
-from datetime import datetime
 import json
 import pyttsx3
 import speech_recognition as sr
@@ -39,6 +38,9 @@ pygame.mixer.music.load("recursos/backgroundaudio.mp3")
 pygame.mixer.music.play(-1)
 nuvem = pygame.image.load ("recursos/nuvem.png")
 nuvem = pygame.transform.scale (nuvem , (150, 150))
+lua_img_original = pygame.image.load("recursos/lua.png").convert_alpha()
+
+
 
 voz = pyttsx3.init()
 def falar(mensagem):
@@ -145,27 +147,8 @@ def jogar():
     posicaoY_nuvem = random.randint(50, 200)
     velocidade_nuvem = random.uniform(0.5, 1.5)
     pausado = False
-    
-    def escreverDados(nome, pontuacao):
-        try:
-            with open("base.atitus", "r") as f:
-                dados = json.load(f)
-        except FileNotFoundError:
-                dados = {}
-
-    agora = datetime.now()
-    data = agora.strftime("%d/%m/%Y")
-    hora = agora.strftime("%H:%M:%S")
-
-    novo_registro = [pontuacao, data, hora]
-
-    if nome in dados:
-        dados[nome].append(novo_registro)
-    else:
-        dados[nome] = [novo_registro]
-
-    with open("base.atitus", "w") as f:
-        json.dump(dados, f, indent=4)
+    raio_lua = 300
+    aumentando = True
     
     while True:
         for evento in pygame.event.get():
@@ -208,10 +191,23 @@ def jogar():
           posicaoY_nuvem = random.randint(50, 200)
           velocidade_nuvem = random.uniform(0.5, 1.5)
         
+        if aumentando:
+            raio_lua += 0.1
+            if raio_lua >= 320:
+                aumentando = False
+        else:
+            raio_lua -= 0.1
+            if raio_lua <= 300:
+                aumentando = True
+
+        lua_escalada = pygame.transform.smoothscale(lua_img_original, (int(raio_lua), int(raio_lua)))
+
         tela.fill(branco)
         tela.blit(fundoJogo, (0,0))
         tela.blit(personagem, (posicaoXPersona, posicaoYPersona))
         tela.blit(nuvem, (posicaoX_nuvem, posicaoY_nuvem))
+        tela.blit(lua_escalada, (800, -100))
+
 
         posicaoYMissel = posicaoYMissel + velocidadeMissel
         if posicaoYMissel > 600:

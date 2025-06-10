@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import messagebox
 from assets.funcoes import inicializarBancoDeDados
 from assets.funcoes import escreverDados
+from datetime import datetime
 import json
 import pyttsx3
 import speech_recognition as sr
@@ -27,6 +28,7 @@ fundoJogo = pygame.transform.scale(fundoJogo, (1000, 700))
 logo = pygame.image.load("recursos/limboLogo.png")
 logo = pygame.transform.scale(logo, (320, 120))
 fundoDead = pygame.image.load("recursos/fundoDead.png")
+fundoDead = pygame.transform.scale(fundoDead, (1000,700))
 meteoro = pygame.image.load("recursos/meteoro.png")
 meteoro = pygame.transform.scale(meteoro, (220, 260))
 missileSound = pygame.mixer.Sound("recursos/missile.wav")
@@ -143,6 +145,27 @@ def jogar():
     posicaoY_nuvem = random.randint(50, 200)
     velocidade_nuvem = random.uniform(0.5, 1.5)
     pausado = False
+    
+    def escreverDados(nome, pontuacao):
+        try:
+            with open("base.atitus", "r") as f:
+                dados = json.load(f)
+        except FileNotFoundError:
+                dados = {}
+
+    agora = datetime.now()
+    data = agora.strftime("%d/%m/%Y")
+    hora = agora.strftime("%H:%M:%S")
+
+    novo_registro = [pontuacao, data, hora]
+
+    if nome in dados:
+        dados[nome].append(novo_registro)
+    else:
+        dados[nome] = [novo_registro]
+
+    with open("base.atitus", "w") as f:
+        json.dump(dados, f, indent=4)
     
     while True:
         for evento in pygame.event.get():

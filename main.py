@@ -137,28 +137,29 @@ def jogar():
     alturaPersona = 110
     larguaMissel = 150
     alturaMissel = 225
-    
+    pausado = False
     
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 quit()
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_RIGHT:
-                movimentoXPersona = 15
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_LEFT:
-                movimentoXPersona = -15
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_RIGHT:
-                movimentoXPersona = 0
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_LEFT:
-                movimentoXPersona = 0
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_UP:
-                movimentoYPersona = 0
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_DOWN:
-                movimentoYPersona = 0
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_UP:
-                movimentoYPersona = 0
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_DOWN:
-                movimentoYPersona = 0
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_SPACE:
+                    pausado = not pausado
+                elif evento.key == pygame.K_RIGHT:
+                    movimentoXPersona = 15
+                elif evento.key == pygame.K_LEFT:
+                    movimentoXPersona = -15
+            elif evento.type == pygame.KEYUP:
+                if evento.key in [pygame.K_RIGHT, pygame.K_LEFT]:
+                    movimentoXPersona = 0
+
+        if pausado:
+            tela.blit(fundoJogo, (0, 0))
+            texto_pause = fonteMorte.render("PAUSE", True, branco)
+            tela.blit(texto_pause, (350, 250))
+            pygame.display.update()
+            continue
                 
         posicaoXPersona = posicaoXPersona + movimentoXPersona            
         posicaoYPersona = posicaoYPersona + movimentoYPersona            
@@ -188,7 +189,10 @@ def jogar():
         tela.blit(meteoro, (posicaoXMissel, posicaoYMissel))
         
         texto = fonteMenu.render("Pontos: "+str(pontos), True, branco)
-        tela.blit(texto, (15,15))
+        texto_dica = fonteMenu.render("Press Space to Pause Game", True, branco)
+
+        tela.blit(texto, (15,45))
+        tela.blit(texto_dica, (15, 15))
         
         hitbox_width = larguraPersona - 30
         hitbox_height = alturaPersona - 40

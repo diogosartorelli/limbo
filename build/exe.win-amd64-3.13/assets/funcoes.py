@@ -9,13 +9,6 @@ def limpar_tela():
 def aguarde(segundos):
     time.sleep(segundos)
     
-def inicializarBancoDeDados():
-    # r - read, w - write, a - append
-    try:
-        banco = open("base.atitus","r")
-    except:
-        print("Banco de Dados Inexistente. Criando...")
-        banco = open("base.atitus","w")
     
 def escreverDados(nome, pontos):
     arquivo = "log.dat"

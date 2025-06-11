@@ -1,36 +1,30 @@
 from cx_Freeze import setup, Executable
 import sys
-import os
 
-# Define a base para GUI (evita abrir o terminal junto no Windows)
+build_exe_options = {
+    "packages": [
+        "pygame",
+        "speech_recognition",
+        "pyttsx3",
+        "aifc",
+        "chunk",
+        "audioop"
+    ],
+    "include_files": [
+        ("recursos", "recursos"),
+        ("assets", "assets"),
+        "log.dat"
+    ]
+}
+
 base = None
 if sys.platform == "win32":
-    base = "Win32GUI"
-
-# Inclusão dos arquivos de mídia
-incluir_arquivos = [
-    ("recursos", "recursos"),
-    ("assets", "assets")
-]
+    base = "Win32GUI"  # remove o terminal ao abrir o jogo
 
 setup(
     name="Limbo",
     version="1.0",
-    description="Jogo Limbo",
-    options={
-        "build_exe": {
-            "packages": [
-                "pygame",
-                "random",
-                "json",
-                "pyttsx3",
-                "speech_recognition"
-            ],
-            "include_files": incluir_arquivos,
-            "include_msvcr": True
-        }
-    },
-    executables=[
-        Executable("main.py", base=base, target_name="Limbo.exe")
-    ]
+    description="Jogo com pygame e voz",
+    options={"build_exe": build_exe_options},
+    executables=[Executable("main.py", base=base)]
 )

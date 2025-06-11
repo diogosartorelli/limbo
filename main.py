@@ -3,14 +3,13 @@ import random
 import os
 import tkinter as tk
 from tkinter import messagebox
-from assets.funcoes import inicializarBancoDeDados
 from assets.funcoes import escreverDados
 import json
 import pyttsx3
 import speech_recognition as sr
+import sys
 
 pygame.init()
-inicializarBancoDeDados()
 tamanho = (1000,700)
 relogio = pygame.time.Clock()
 tela = pygame.display.set_mode(tamanho) 
@@ -65,7 +64,7 @@ def tela_boas_vindas(nome_jogador):
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                quit()
+                    sys.exit()
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if botao_iniciar.collidepoint(evento.pos):
                     return
@@ -161,7 +160,7 @@ def jogar():
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                quit()
+                    sys.exit()
             elif evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_SPACE:
                     pausado = not pausado
@@ -266,7 +265,7 @@ def start():
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                quit()
+                    sys.exit()
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if startButton.collidepoint(evento.pos):
                     larguraButtonStart = 140
@@ -282,7 +281,7 @@ def start():
                 if quitButton.collidepoint(evento.pos):
                     larguraButtonQuit = 150
                     alturaButtonQuit = 40
-                    quit()
+                    sys.exit()
             
         tela.fill(branco)
         tela.blit(fundoStart, (0,0))
@@ -326,7 +325,7 @@ def dead():
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                quit()
+                sys.exit()
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if startButton.collidepoint(evento.pos):
                     larguraButtonStart = 140
@@ -342,7 +341,7 @@ def dead():
                 if quitButton.collidepoint(evento.pos):
                     larguraButtonQuit = 150
                     alturaButtonQuit = 40
-                    quit()
+                    sys.exit()
                     
         tela.fill(branco)
         tela.blit(fundoDead, (0,0))
@@ -361,7 +360,7 @@ def dead():
         # Exibir os registros
         for i, (nome, pontos, data, hora) in enumerate(registros):
             texto = fonteMenu.render(f"{i+1}. {nome} | {pontos} pts | {data} {hora}", True, branco)
-            tela.blit(texto, (250, 190 + i * 30))
+            tela.blit(texto, (250, 400 + i * 30))
 
         pygame.display.update()
         relogio.tick(60)

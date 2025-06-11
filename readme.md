@@ -8,7 +8,9 @@
 
 - **Nome:** Diogo Sartorelli  
 - **RA:** 1138670
-
+##TESTADOR DO JOGO
+- ARIEL DAVID DE ALMEIDA CHAVES
+- RA: 1136093
 ---
 
 ## 🎮 Sobre o Jogo

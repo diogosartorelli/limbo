@@ -30,8 +30,8 @@ fundoDead = pygame.image.load("recursos/fundoDead.png")
 fundoDead = pygame.transform.scale(fundoDead, (1000,700))
 meteoro = pygame.image.load("recursos/meteoro.png")
 meteoro = pygame.transform.scale(meteoro, (220, 260))
-missileSound = pygame.mixer.Sound("recursos/missile.wav")
-explosaoSound = pygame.mixer.Sound("recursos/explosao.wav")
+missileSound = pygame.mixer.Sound("recursos/meteor_sound.mp3")
+explosaoSound = pygame.mixer.Sound("recursos/explosao.mp3")
 fonteMenu = pygame.font.SysFont("Papyrus",25)
 fonteMorte = pygame.font.SysFont("arial",120)
 pygame.mixer.music.load("recursos/backgroundaudio.mp3")
@@ -73,11 +73,11 @@ def tela_boas_vindas(nome_jogador):
         tela.fill(branco)
         tela.blit(fundoStart, (0, 0))
         
-        # Mensagem de boas-vindas
+        
         texto_boas_vindas = fonteMenu.render(f"Bem-vindo {nome_jogador}!", True, branco)
         tela.blit(texto_boas_vindas, (400, 200))
         
-        # Instruções do jogo
+        
         instrucoes = [
             "Use as setas do teclado para mover o personagem",
             "Desvie dos meteoros que caem do céu",
@@ -91,7 +91,7 @@ def tela_boas_vindas(nome_jogador):
             texto_linha = fonteMenu.render(linha, True, branco)
             tela.blit(texto_linha, (250, 250 + i * 30))
         
-        # Botão para iniciar
+        
         botao_iniciar = pygame.draw.rect(tela, branco, 
                                        (400, 470, largura_botao, altura_botao), 
                                        border_radius=20)
@@ -245,6 +245,7 @@ def jogar():
 
         missel_rect = pygame.Rect(posicaoXMissel + 50, posicaoYMissel + 30, hitbox_width, hitbox_height)
 
+        #VER HITBOX
         #pygame.draw.rect(tela, (255, 0, 0), persona_rect, 2)
         #pygame.draw.rect(tela, (0, 0, 255), missel_rect, 2)
 
@@ -306,14 +307,13 @@ def dead():
     larguraButtonQuit = 150
     alturaButtonQuit = 40
     
-     # Carregar os dados do log
+
     try:
         with open("log.dat", "r") as f:
             dados = json.load(f)
     except FileNotFoundError:
         dados = {}
 
-    # Coletar todos os registros com nome, pontuação, data e hora
     registros = []
     for nome, partidas in dados.items():
         for partida in partidas:
@@ -321,8 +321,7 @@ def dead():
                 pontos, data, hora = partida
                 registros.append((nome, pontos, data, hora))
 
-    # Ordenar por data/hora se necessário (aqui assume a ordem original como mais recente)
-    registros = registros[-5:]  # pegar os 5 últimos
+    registros = registros[-5:]  
     
     while True:
         for evento in pygame.event.get():
